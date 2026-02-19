@@ -46,7 +46,16 @@ export class ConversationService {
   }
 
   requestWatcherResponse(userMessage: Message): void {
-    
+    // var url = "http://localhost:8080/ai/globals/ask/"
+    // var id = "1234" // TODO: generate unique ID for each conversation
+    // var final_url = url + id;
+
+    // this.http.post(final_url, { question: userMessage.content }, { responseType: 'text' }).subscribe(response => {  }, error => {
+    //   console.error("Error fetching watcher response:", error);
+    // }
+
+
+
     this.addBotMessage("Resposta do bot... (esta é uma resposta fixa para teste, substitua pela resposta real da API)");
     // this.http.get("https://webhook.site/02cf91b9-6e46-4a70-8684-537d4ce08aeb", { responseType: 'text' }).subscribe(response => {
     //   console.log("Watcher response received:", response);
