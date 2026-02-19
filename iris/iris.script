@@ -2,7 +2,6 @@ zn "%SYS"
 do ##class(SYS.Container).QuiesceForBundling()
 do ##class(Security.Users).UnExpireUserPasswords("*")
 
-zn "%SYS"
 do $System.OBJ.Import("/opt/irisapp/src","cuk")
 
 Do ##class(guard.SnapshotGenerator).run()

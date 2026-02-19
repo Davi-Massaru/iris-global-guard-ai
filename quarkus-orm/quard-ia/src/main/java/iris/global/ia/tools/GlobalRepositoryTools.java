@@ -137,7 +137,6 @@ public class GlobalRepositoryTools {
       Returns a list of globals ordered by growth percentage (descending),
       mapped as GlobalSnapshotDTO.
       """)
-
   @Nonnull
   @SuppressWarnings("null")
   public List<GlobalSnapshotDTO> riskyGlobals(
@@ -220,7 +219,6 @@ public class GlobalRepositoryTools {
       Returns a chronological list of GlobalSnapshotDTO entries
       representing the full growth history of the global.
       """)
-
   @Nonnull
   @SuppressWarnings("null")
   public List<GlobalSnapshotDTO> globalHistory(String globalName) {
@@ -277,6 +275,7 @@ public class GlobalRepositoryTools {
       useful for capacity planning and storage monitoring.
 
       WHEN TO USE:
+      - Get information about disks location-level growth and usage
       - When the user asks about disk usage per database or location
       - When comparing growth across storage locations
       - When analyzing which disk or database is consuming more space
@@ -304,7 +303,6 @@ public class GlobalRepositoryTools {
       - value = aggregated metrics:
                 usedMB, allocatedMB, growthMB
       """)
-
   @Nonnull
   public Map<String, Map<String, BigDecimal>> diskSUMGrowthByLocation(
       LocalDate snapshotDate) {

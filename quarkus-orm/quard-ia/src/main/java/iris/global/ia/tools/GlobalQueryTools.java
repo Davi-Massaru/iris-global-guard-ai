@@ -65,7 +65,6 @@ public class GlobalQueryTools {
                 Returns a list of globals with metadata fields:
                 name, location, hasData, hasSubscripts, journal, collation.
             """)
-
     @Nonnull
     @SuppressWarnings("null")
     public List<Map<String, Object>> listGlobalsInNamespace(String namespace, String globalNamePattern) {
@@ -82,7 +81,7 @@ public class GlobalQueryTools {
                     FROM %SYS.GlobalQuery_NameSpaceList(:ns, :pattern, 0)
                 """)
                 .setParameter("ns", namespace.trim())
-                .setParameter("pattern", globalNamePattern.trim())
+                .setParameter("pattern", globalNamePattern.trim().toUpperCase().replace("^", ""))
                 .getResultList();
 
         return rows.stream()
@@ -131,7 +130,7 @@ public class GlobalQueryTools {
             How to use:
                 - "*" to analyze all globals in the location
                 - Prefix-based filtering using "*"
-            Example: "*", "Ens*", "MyApp*"
+            Example: "*", "Ens*", "MyApp.*"
 
             RULES:
             - Only call this tool if the database location is explicitly known.
@@ -159,7 +158,7 @@ public class GlobalQueryTools {
                     FROM %SYS.GlobalQuery_Size(:loc, '', :pattern, '2')
                 """)
                 .setParameter("loc", location)
-                .setParameter("pattern", globalNamePattern)
+                .setParameter("pattern", globalNamePattern.replace("^", "").toUpperCase().trim())
                 .getResultList();
 
         return rows.stream()
@@ -173,4 +172,98 @@ public class GlobalQueryTools {
                 .toList();
     }
 
+    @Tool("""
+        You are calling a growth behavior similarity analysis tool for InterSystems IRIS globals.
+
+        PURPOSE:
+        Analyze and compare weekly growth patterns of globals using vector cosine similarity.
+        This tool identifies globals that exhibit similar growth behavior across days of
+        the week, independent of absolute size or total disk usage.
+
+        The comparison is performed using precomputed weekly growth vectors stored in
+        guard.GlobalGrowthProfile.
+
+        This tool is intended for behavioral analysis, correlation detection,
+        capacity planning, and identifying globals that grow together over time.
+
+        WHEN TO USE:
+        - When the user asks for globals with similar growth patterns
+        - When analyzing which globals grow in a correlated or synchronized way
+        - When investigating recurring weekly growth behavior
+        - When performing pattern-based analysis rather than size-based analysis
+
+        WHEN NOT TO USE:
+        - Do NOT use for raw disk usage or absolute growth queries
+        - Do NOT use for single snapshot or single-day analysis
+        - Do NOT use if weekly growth vectors have not been generated
+        - Do NOT infer similarity without vector data
+
+        PARAMETERS:
+        - globalName (String) [required]
+        Description: Name of the reference global whose weekly growth pattern will be
+        used as the comparison baseline.
+        How to use:
+            - The name must match the GlobalName stored in guard.GlobalGrowthProfile
+            - Case-insensitive, normalized internally
+        Example: "Orders", "Ens.MessageBody", "MyApp.Data"
+
+        RULES:
+        - Always use IRIS vector similarity functions (VECTOR_COSINE).
+        - Never approximate or infer growth similarity outside the database.
+        - If the reference global does not exist, state this clearly.
+        - Do NOT fall back to absolute growth or disk size metrics.
+        - Do NOT fabricate or estimate growth patterns.
+
+        OUTPUT:
+        Returns a list of globals with similar weekly growth behavior, including:
+        globalName, location, window size, date range, and average growth per weekday.
+        """)
+    @Nonnull
+    @SuppressWarnings("null")
+    public List<Map<String, Object>> findSimilarGlobalsByVectorCosine(String globalName) {
+        globalName = globalName.replace("^", "").trim().toUpperCase();
+
+        @SuppressWarnings("unchecked")
+        List<Object[]> rows = em.createNativeQuery("""
+                                    SELECT TOP 5
+                                        result.GlobalName,
+                                        result.Location,
+                                        result.WindowDays,
+                                        result.FromDate,
+                                        result.ToDate,
+                                        result.AVGMon,
+                                        result.AVGTue,
+                                        result.AVGWed,
+                                        result.AVGThu,
+                                        result.AVGFri,
+                                        result.AVGSat,
+                                        result.AVGSun
+                                    FROM guard.GlobalGrowthProfile result
+                                    ORDER BY VECTOR_COSINE(result.WeeklyVector,
+                                        (SELECT TOP 1 ref.WeeklyVector FROM guard.GlobalGrowthProfile ref WHERE ref.GlobalName = :globalName)
+                                    ) DESC
+                                """)
+                .setParameter("globalName", globalName)
+                .getResultList();
+
+        return rows.stream()
+                .map(row -> {
+                    Map<String, Object> m = new HashMap<>();
+                    m.put("globalName", row[0]);
+                    m.put("location", row[1]);
+                    m.put("windowDays", row[2]);
+                    m.put("fromDate", row[3]);
+                    m.put("toDate", row[4]);
+                    m.put("avgMon", row[5]);
+                    m.put("avgTue", row[6]);
+                    m.put("avgWed", row[7]);
+                    m.put("avgThu", row[8]);
+                    m.put("avgFri", row[9]);
+                    m.put("avgSat", row[10]);
+                    m.put("avgSun", row[11]);
+                    return m;
+                })
+                .toList();
+
+    }
 }

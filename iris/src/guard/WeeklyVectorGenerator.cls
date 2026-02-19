@@ -10,23 +10,23 @@ ClassMethod run(windowDays As %Integer = 90) [ Language = python ]
     from_date = today - timedelta(days=windowDays)
 
     sql = """
-    SELECT
-        GlobalName,
-        Location,
+        SELECT
+            GlobalName,
+            Location,
 
-        AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 2 THEN GrowthMB ELSE 0 END) AS Mon,
-        AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 3 THEN GrowthMB ELSE 0 END) AS Tue,
-        AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 4 THEN GrowthMB ELSE 0 END) AS Wed,
-        AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 5 THEN GrowthMB ELSE 0 END) AS Thu,
-        AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 6 THEN GrowthMB ELSE 0 END) AS Fri,
-        AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 7 THEN GrowthMB ELSE 0 END) AS Sat,
-        AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 1 THEN GrowthMB ELSE 0 END) AS Sun
+            AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 2 THEN GrowthMB ELSE 0 END) AS Mon,
+            AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 3 THEN GrowthMB ELSE 0 END) AS Tue,
+            AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 4 THEN GrowthMB ELSE 0 END) AS Wed,
+            AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 5 THEN GrowthMB ELSE 0 END) AS Thu,
+            AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 6 THEN GrowthMB ELSE 0 END) AS Fri,
+            AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 7 THEN GrowthMB ELSE 0 END) AS Sat,
+            AVG(CASE WHEN DAYOFWEEK(SnapshotDate) = 1 THEN GrowthMB ELSE 0 END) AS Sun
 
-    FROM guard.GlobalSnapshot
-    WHERE
-        GrowthMB IS NOT NULL
-        AND SnapshotDate >= ?
-    GROUP BY GlobalName, Location
+        FROM guard.GlobalSnapshot
+        WHERE
+            GrowthMB IS NOT NULL
+            AND SnapshotDate >= ?
+        GROUP BY GlobalName, Location
     """
     print(f"Running WeeklyVectorGenerator for data from {from_date} to {today} (window: {windowDays} days)")
     select_stmt = iris.sql.prepare(sql)
