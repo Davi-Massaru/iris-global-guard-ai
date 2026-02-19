@@ -2,10 +2,11 @@ import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { Message } from '@shared/models/message.model';
 import { MessageSender } from '@shared/models/enums/message-sender.enum';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'global-watcher-chat-message',
-  imports: [DatePipe],
+  imports: [DatePipe, MarkdownModule],
   templateUrl: './global-watcher-chat-message.html',
   styleUrl: './global-watcher-chat-message.css',
 })
