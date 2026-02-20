@@ -31,7 +31,7 @@
         justify-self: end;
         border-radius: 5px;
         min-width: 70px;
-        max-width: 400px;
+        max-width: 550px;
         word-wrap: break-word;
         /* legacy */
         overflow-wrap: break-word;
@@ -71,7 +71,9 @@
                 <p>{{message()?.timestamp | date: 'HH:mm'}}</p>
             </div>
         </div>
-        <p class="content">{{message()?.content}}</p>
+        <!-- <markdown>fff</markdown> -->
+         <markdown class='content'>{{message()?.content}}</markdown>
+        <!-- <p class="content">{{message()?.content}}</p> -->
     </div>
 
 </div>

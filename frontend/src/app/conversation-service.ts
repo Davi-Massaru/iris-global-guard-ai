@@ -18,12 +18,12 @@ export class ConversationService {
     const messageObj: Message = {
       id: Math.random().toString(36).substring(2, 9),
       content: message,
-      sender:sender,
+      sender: sender,
       timestamp: new Date()
     };
-    
+
     console.log("Current conversation:", this.WholeConversation);
-    this.list_of_messages.next([...this.WholeConversation,  messageObj]);
+    this.list_of_messages.next([...this.WholeConversation, messageObj]);
     this.WholeConversation.push(messageObj);
 
     return messageObj;
@@ -54,9 +54,34 @@ export class ConversationService {
     //   console.error("Error fetching watcher response:", error);
     // }
 
+    const example_response = `
+
+      Here is the historical growth information for the global **guard.GlobalSnapshotD**:
+        
+      1. **Snapshot Date:** February 18, 2026
+         - **Allocated MB:** 0.023
+         - **Used MB:** 0.019
+         - **Location:** /usr/irissys/mgr/
+         - **Tables:** guard.GlobalSnapshot
+         - **Growth:** Not applicable (no growth recorded)
+        
+      2. **Snapshot Date:** February 19, 2026
+         - **Allocated MB:** 0.055
+         - **Used MB:** 0.044
+         - **Location:** /usr/irissys/mgr/
+         - **Tables:** guard.GlobalSnapshot
+         - **Growth:** 0.025 MB
+         - **Growth Percentage:** 131.58%
+        
+      ### Summary
+      - The global **guard.GlobalSnapshotD** showed an increase in size from **0.019 MB** to **0.044 MB** between the two snapshots, indicating a growth of **0.025 MB** (approximately **131.58%** growth) on February 19, 2026.
+        
+      If you need further analysis or details, feel free to ask!
+      `;
 
 
-    this.addBotMessage("Resposta do bot... (esta é uma resposta fixa para teste, substitua pela resposta real da API)");
+
+    this.addBotMessage(example_response);
     // this.http.get("https://webhook.site/02cf91b9-6e46-4a70-8684-537d4ce08aeb", { responseType: 'text' }).subscribe(response => {
     //   console.log("Watcher response received:", response);
     //   this.addBotMessage(response);
