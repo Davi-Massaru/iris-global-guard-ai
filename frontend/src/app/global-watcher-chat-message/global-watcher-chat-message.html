@@ -1,66 +1,3 @@
-<style>
-    .message {
-        /* border: 1px solid black; */
-        display: flex;
-        flex-direction: row;
-        border-radius: 5px;
-        margin: 3px 0px;
-    }
-
-    .left {
-        justify-content: flex-start;
-    }
-
-    .right {
-        justify-content: flex-end;
-    }
-
-    .left .message-container {
-        background-color: #ececec;
-        border-radius: 5px;
-        color: #1C1C1C;
-    }
-
-    .right .message-container {
-        background-color: #579ffb;
-        border-radius: 5px;
-        color: #fff;
-    }
-
-    .message .message-container {
-        justify-self: end;
-        border-radius: 5px;
-        min-width: 70px;
-        max-width: 550px;
-        word-wrap: break-word;
-        /* legacy */
-        overflow-wrap: break-word;
-        /* modern */
-        /* padding:10px; */
-    }
-
-    .speaker-info {
-        display: flex;
-        justify-content: space-between;
-        /* padding: 5px 10px 0px 10px; */
-        /* border: 1px solid black; */
-    }
-
-    .message p {
-        margin: 10px;
-        white-space: pre-wrap;
-        /* preserves \n and wraps */
-        word-break: break-word;
-        /* padding: 0px 0px; */
-    }
-    .timestamp p {
-        font-size: 0.8em;
-        line-height: 19px;       
-    }
-    .content {
-       font-size: 0.9em;
-    }
-</style>
 <div class='message {{type_of_message}}'>
     <div class="message-container">
         <div class="speaker-info">
@@ -71,9 +8,9 @@
                 <p>{{message()?.timestamp | date: 'HH:mm'}}</p>
             </div>
         </div>
-        <!-- <markdown>fff</markdown> -->
+        
          <markdown class='content'>{{message()?.content}}</markdown>
-        <!-- <p class="content">{{message()?.content}}</p> -->
+        
     </div>
 
 </div>

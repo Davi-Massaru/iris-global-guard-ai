@@ -46,7 +46,7 @@ export class ConversationService {
   }
 
   requestWatcherResponse(userMessage: Message): void {
-    // var url = "http://localhost:8080/ai/globals/ask/"
+    // var url = "http://quarkus-orm:8080/ai/globals/ask/"
     // var id = "1234" // TODO: generate unique ID for each conversation
     // var final_url = url + id;
 
@@ -82,11 +82,5 @@ export class ConversationService {
 
 
     this.addBotMessage(example_response);
-    // this.http.get("https://webhook.site/02cf91b9-6e46-4a70-8684-537d4ce08aeb", { responseType: 'text' }).subscribe(response => {
-    //   console.log("Watcher response received:", response);
-    //   this.addBotMessage(response);
-    // }, error => {
-    //   console.error("Error fetching watcher response:", error);
-    // });
   }
 }

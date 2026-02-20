@@ -1,54 +1,5 @@
-<style>
-    form {
-        display: flex;
-        gap: 10px;
-        padding: 10px;
-    }
-
-    button {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        padding: 5px 12px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-        cursor: pointer;
-        border-radius: 5px;
-        max-height: 60px;
-    }
-
-    .input {
-        border-radius: 5px;
-        /* padding: 7px; */
-        font-size: 14px;
-        width: 100%;
-        border: 1px solid #ccc;
-        color: #1C1C1C;
-        outline: none;
-        resize: none;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        max-height: 120px;
-        overflow-y: auto;
-        height: 46px;
-        /* line-height: 20px; */
-        padding-top: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
-        /* padding: 0px 10px; */
-        font-family: 'Roboto', sans-serif;
-        background-color: #f5f5f5;
-        /* margin: 0; */
-        /* padding: 0; */
-    }
-</style>
-<p></p>
 <form action="" (ngSubmit)="sendMessage(messageInput)">
     <textarea #messageInput class='input' placeholder="Type your message here " (input)="autoGrow(messageInput)"
         (keydown.enter)="onEnter($event, messageInput)"></textarea>
-    <!-- <textarea   type="text" placeholder="Type your message here"/> -->
     <button type="submit" [disabled]="!canSendMessage">Send</button>
 </form>
