@@ -3,19 +3,33 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Message } from './shared/models/message.model';
 import { MessageSender } from '@shared/models/enums/message-sender.enum';
-import { v4 as uuidv4 } from 'uuid'; // npm install uuid
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({ providedIn: 'root' })
 export class ConversationService {
   private conversation: Message[] = [];
   private http = inject(HttpClient);
   private listOfMessages = new BehaviorSubject<Message[]>([]);
+  private isLoadingSubject = new BehaviorSubject<boolean>(false);
+  private chatId: string;
+
   listOfMessages$ = this.listOfMessages.asObservable();
+  isLoading$ = this.isLoadingSubject.asObservable();
+
+  constructor() {
+    const storedId = sessionStorage.getItem('chatId');
+    if (storedId) {
+      this.chatId = storedId;
+    } else {
+      this.chatId = uuidv4().split('-')[0];
+      sessionStorage.setItem('chatId', this.chatId);
+    }
+  }
 
   addMessage(content: string, sender: MessageSender): Message {
     const messageObj: Message = {
       id: uuidv4(),
-      content: content,
+      content,
       sender,
       timestamp: new Date()
     };
@@ -36,28 +50,20 @@ export class ConversationService {
   }
 
   private sendUserMessage(message: Message): void {
-    // Aqui você chamaria a API real
-    this.requestWatcherResponse(message);
-  }
+    const url = `http://localhost:8080/ai/globals/ask/${this.chatId}`;
+    const body = { ask: message.content };
 
-  private requestWatcherResponse(userMessage: Message): void {
-    // Simulação de resposta da IA
-    const response = `
-### Guard.GlobalSnapshotD Analysis
+    this.isLoadingSubject.next(true);
 
-1. **Snapshot:** 2026-02-18
-   - Allocated: 0.023 MB
-   - Used: 0.019 MB
-
-2. **Snapshot:** 2026-02-19
-   - Allocated: 0.055 MB
-   - Used: 0.044 MB
-   - Growth: 0.025 MB (131.58%)
-
-**Summary:** Growth from 0.019 MB → 0.044 MB between snapshots.
-
-`;
-
-    this.addBotMessage(response);
+    this.http.post<{ answer: string }>(url, body).subscribe({
+      next: (res) => {
+        this.addBotMessage(res.answer);
+        this.isLoadingSubject.next(false);
+      },
+      error: (err) => {
+        this.addBotMessage("An error occurred while processing your question. Please try again.");
+        this.isLoadingSubject.next(false);
+      }
+    });
   }
 }

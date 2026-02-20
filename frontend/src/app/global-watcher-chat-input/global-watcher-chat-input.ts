@@ -24,12 +24,29 @@ export class GlobalWatcherChatInput {
     this.canSendMessage = false;
   }
 
-  onInput() {
-    this.canSendMessage = this.message.trim().length > 0;
+onInput(): void {
+  const textarea = document.querySelector('.chat-input-textarea') as HTMLTextAreaElement;
+  if (textarea) {
+    textarea.style.height = 'auto';
+    const newHeight = Math.min(textarea.scrollHeight, 150);
+    if (newHeight > 60) {
+      textarea.style.height = newHeight + 'px';
+    }
   }
 
+  this.canSendMessage = this.message.trim().length > 0;
+  if (!this.canSendMessage && textarea) {
+    textarea.style.height = '40px';
+  }
+}
+
   onEnter(event: Event) {
-    const keyboardEvent = event as KeyboardEvent; // cast para KeyboardEvent
+    const textarea = document.querySelector('.chat-input-textarea') as HTMLTextAreaElement;
+    if (textarea) {
+      textarea.style.height = '40px';
+    }
+
+    const keyboardEvent = event as KeyboardEvent;
     if (!keyboardEvent.shiftKey) {
       keyboardEvent.preventDefault();
       this.sendMessage();

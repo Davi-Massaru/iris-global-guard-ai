@@ -16,14 +16,14 @@
   border-radius: 10px;
   padding: 10px 14px;
   resize: none;
-  overflow-y: auto;
-  max-height: 140px;
-  min-height: 50px;
+  height: 40px;
+  min-height: 24px;
+  max-height: 150px;
   background-color: #f9fafb;
   color: #111827;
   transition: border 0.25s ease, box-shadow 0.25s ease;
-
-  /* foco */
+  overflow-y: auto;
+  
   &:focus {
     border-color: #4c66af;
     box-shadow: 0 0 0 2px rgba(76,102,175,0.2);
@@ -41,7 +41,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
-  min-height: 50px;
+  height: auto;
 
   &:hover:not(:disabled) {
     background-color: #3b559f;

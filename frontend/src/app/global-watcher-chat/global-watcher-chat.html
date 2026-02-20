@@ -2,4 +2,14 @@
   <ng-container *ngFor="let message of list_of_messages">
     <global-watcher-chat-message [message]="message"></global-watcher-chat-message>
   </ng-container>
+
+     @if(isLoading) {
+      <div class="typing-indicator-container">
+        <div class="typing-indicator-bubble">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+      </div>
+    </div>
+      }
 </div>

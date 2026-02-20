@@ -1,13 +1,19 @@
 <div class="message" [ngClass]="message.sender">
   <div class="message-container">
     <div class="speaker-info">
-      <div>
-        <p><b>{{ message.sender === 'watcher' ? 'Watcher' : 'User' }}</b></p>
+      <div class="speaker-name">
+        <fa-icon [icon]="message.sender === 'watcher' ? faRobot : faUser"></fa-icon>
+        <p><b>{{ message.sender === 'watcher' ? 'I.A - IRIS' : 'User' }}</b></p>
       </div>
       <div class="timestamp">
         <p>{{ message.timestamp | date:'HH:mm' }}</p>
       </div>
     </div>
-    <markdown class="content">{{ message.content }}</markdown>
+    @if(message.sender === 'watcher') {
+      <markdown class="content">{{ message.content }}</markdown>
+    }
+    @else {
+      <p class="content-user">{{ message.content }}</p>
+    }
   </div>
 </div>
