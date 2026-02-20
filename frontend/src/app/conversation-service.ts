@@ -50,7 +50,7 @@ export class ConversationService {
   }
 
   private sendUserMessage(message: Message): void {
-    const url = `http://quarkus-orm:8080/ai/globals/ask/${this.chatId}`;
+    const url = `http://localhost:8080/ai/globals/ask/${this.chatId}`;
     const body = { ask: message.content };
 
     this.isLoadingSubject.next(true);
