@@ -50,14 +50,14 @@ export class ConversationService {
   }
 
   private sendUserMessage(message: Message): void {
-    const url = `http://localhost:8080/ai/globals/ask/${this.chatId}`;
+    const url = `/ai/globals/ask/${this.chatId}`;
     const body = { ask: message.content };
 
     this.isLoadingSubject.next(true);
 
-    this.http.post<{ answer: string }>(url, body).subscribe({
-      next: (res) => {
-        this.addBotMessage(res.answer);
+    this.http.post(url, body, { responseType: 'text' }).subscribe({
+      next: (res: string) => {
+        this.addBotMessage(res);
         this.isLoadingSubject.next(false);
       },
       error: (err) => {
