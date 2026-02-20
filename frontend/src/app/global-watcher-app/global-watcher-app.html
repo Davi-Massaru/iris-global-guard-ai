@@ -4,7 +4,8 @@
   </div>
 
   <div class="chat-app-body">
-    <global-watcher-chat [list_of_messages]="(list_of_messages$ | async) || []"></global-watcher-chat>
+    <global-watcher-chat [list_of_messages]="(list_of_messages$ | async) || []"
+      [isLoading]="(isLoading$ | async) || false"></global-watcher-chat>
   </div>
 
   <div class="chat-app-input">

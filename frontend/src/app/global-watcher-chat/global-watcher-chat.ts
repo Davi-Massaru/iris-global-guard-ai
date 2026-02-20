@@ -13,6 +13,8 @@ import { Message } from '@shared/models/message.model';
 })
 export class GlobalWatcherChat implements AfterViewChecked {
   @Input() list_of_messages: Message[] = [];
+  @Input() isLoading = false;
+  
   @ViewChild('container') chatContainer!: ElementRef;
 
   private lastLength = 0;

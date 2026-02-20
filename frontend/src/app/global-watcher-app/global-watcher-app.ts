@@ -16,11 +16,11 @@ import { Message } from '@shared/models/message.model';
 export class GlobalWatcherApp {
 
   private conversationService = inject(ConversationService);
-
+  
   list_of_messages$: Observable<Message[]> = this.conversationService.listOfMessages$;
+  isLoading$ = this.conversationService.isLoading$;
 
   OnMessageSent(message: string) {
-    console.log("Message received in main app component from input:", message);
     this.conversationService.addUserMessage(message);
   }
 }

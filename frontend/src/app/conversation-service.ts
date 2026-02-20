@@ -3,19 +3,33 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Message } from './shared/models/message.model';
 import { MessageSender } from '@shared/models/enums/message-sender.enum';
-import { v4 as uuidv4 } from 'uuid'; // npm install uuid
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({ providedIn: 'root' })
 export class ConversationService {
   private conversation: Message[] = [];
   private http = inject(HttpClient);
   private listOfMessages = new BehaviorSubject<Message[]>([]);
+  private isLoadingSubject = new BehaviorSubject<boolean>(false);
+  private chatId: string;
+
   listOfMessages$ = this.listOfMessages.asObservable();
+  isLoading$ = this.isLoadingSubject.asObservable();
+
+  constructor() {
+    const storedId = sessionStorage.getItem('chatId');
+    if (storedId) {
+      this.chatId = storedId;
+    } else {
+      this.chatId = uuidv4().split('-')[0];
+      sessionStorage.setItem('chatId', this.chatId);
+    }
+  }
 
   addMessage(content: string, sender: MessageSender): Message {
     const messageObj: Message = {
       id: uuidv4(),
-      content: content,
+      content,
       sender,
       timestamp: new Date()
     };
@@ -36,28 +50,20 @@ export class ConversationService {
   }
 
   private sendUserMessage(message: Message): void {
-    // Aqui você chamaria a API real
-    this.requestWatcherResponse(message);
-  }
+    const url = `http://quarkus-orm:8080/ai/globals/ask/${this.chatId}`;
+    const body = { ask: message.content };
 
-  private requestWatcherResponse(userMessage: Message): void {
-    // Simulação de resposta da IA
-    const response = `
-### Guard.GlobalSnapshotD Analysis
+    this.isLoadingSubject.next(true);
 
-1. **Snapshot:** 2026-02-18
-   - Allocated: 0.023 MB
-   - Used: 0.019 MB
-
-2. **Snapshot:** 2026-02-19
-   - Allocated: 0.055 MB
-   - Used: 0.044 MB
-   - Growth: 0.025 MB (131.58%)
-
-**Summary:** There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc..
-
-`;
-
-    this.addBotMessage(response);
+    this.http.post<{ answer: string }>(url, body).subscribe({
+      next: (res) => {
+        this.addBotMessage(res.answer);
+        this.isLoadingSubject.next(false);
+      },
+      error: (err) => {
+        this.addBotMessage("An error occurred while processing your question. Please try again.");
+        this.isLoadingSubject.next(false);
+      }
+    });
   }
 }
