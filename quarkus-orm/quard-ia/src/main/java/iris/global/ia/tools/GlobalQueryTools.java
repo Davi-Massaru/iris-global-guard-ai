@@ -240,7 +240,7 @@ public class GlobalQueryTools {
                                         result.AVGSun
                                     FROM guard.GlobalGrowthProfile result
                                     ORDER BY VECTOR_COSINE(result.WeeklyVector,
-                                        (SELECT TOP 1 ref.WeeklyVector FROM guard.GlobalGrowthProfile ref WHERE ref.GlobalName = :globalName)
+                                        (SELECT TOP 1 ref.WeeklyVector FROM guard.GlobalGrowthProfile ref WHERE UPPER(ref.GlobalName) = :globalName)
                                     ) DESC
                                 """)
                 .setParameter("globalName", globalName)

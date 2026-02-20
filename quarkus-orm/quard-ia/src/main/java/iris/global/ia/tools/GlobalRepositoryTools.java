@@ -241,7 +241,7 @@ public class GlobalRepositoryTools {
                 Tables,
                 UsedMB
             FROM guard.GlobalSnapshot
-            WHERE GlobalName = :globalName
+            WHERE UPPER(GlobalName) = :globalName
             ORDER BY SnapshotDate ASC
         """)
         .setParameter("globalName", normalized)
