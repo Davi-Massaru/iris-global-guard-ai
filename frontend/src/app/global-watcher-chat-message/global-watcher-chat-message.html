@@ -9,6 +9,11 @@
         <p>{{ message.timestamp | date:'HH:mm' }}</p>
       </div>
     </div>
-    <markdown class="content">{{ message.content }}</markdown>
+    @if(message.sender === 'watcher') {
+      <markdown class="content">{{ message.content }}</markdown>
+    }
+    @else {
+      <p class="content-user">{{ message.content }}</p>
+    }
   </div>
 </div>

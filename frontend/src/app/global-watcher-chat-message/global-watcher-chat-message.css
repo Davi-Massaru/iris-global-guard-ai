@@ -28,6 +28,19 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.content-user {
+  padding: 6px 10px;
+  background-color: #4c66af;
+  color: #ffffff;
+  border-radius: 12px 12px 0 12px; 
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+
 .message-container {
   padding: 5px 10px;
   max-width: 70%;
