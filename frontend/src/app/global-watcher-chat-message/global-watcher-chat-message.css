@@ -5,31 +5,29 @@
   width: 100%;
 }
 
-/* Mensagens do Watcher */
 .watcher {
   justify-content: flex-start;
 }
 
 .watcher .message-container {
-  background-color: #fbf9f9; /* fundo branco suave */
-  color: #1c1c1c;             /* texto escuro */
+  background-color: #fbf9f9;
+  color: #1c1c1c;
   border-radius: 12px 12px 12px 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-/* Mensagens do User */
 .user {
   justify-content: flex-end;
 }
 
 .user .message-container {
-  background-color: #4c66af;  /* azul app */
-  color: #fff;                /* texto branco */
+  min-width: 20%;
+  background-color: #4c66af;
+  color: #ffffff;
   border-radius: 12px 12px 0 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Container comum das mensagens */
 .message-container {
   padding: 5px 10px;
   max-width: 70%;
@@ -40,7 +38,6 @@
   font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* Info do remetente e horário */
 .speaker-info {
   display: flex;
   justify-content: space-between;
@@ -55,4 +52,14 @@
 p {
   margin: 0;
   padding: 0;
+}
+
+.speaker-name {
+  display: flex;
+  align-items: center;
+}
+
+.speaker-name fa-icon {
+  margin-right: 5px;
+  margin-left:3px;
 }
