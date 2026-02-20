@@ -1,5 +1,15 @@
-<form action="" (ngSubmit)="sendMessage(messageInput)">
-    <textarea #messageInput class='input' placeholder="Type your message here " (input)="autoGrow(messageInput)"
-        (keydown.enter)="onEnter($event, messageInput)"></textarea>
-    <button type="submit" [disabled]="!canSendMessage">Send</button>
+<form class="chat-input-form" (ngSubmit)="sendMessage()">
+  <textarea
+    [(ngModel)]="message"
+    name="message"
+    class="chat-input-textarea"
+    placeholder="Type your message..."
+    (input)="onInput()"
+    (keydown.enter)="onEnter($event)"
+    aria-label="Message input"
+  ></textarea>
+
+  <button type="submit" class="chat-input-button" [disabled]="!canSendMessage">
+    Send
+  </button>
 </form>

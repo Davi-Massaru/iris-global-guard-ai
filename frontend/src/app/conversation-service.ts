@@ -1,86 +1,63 @@
 import { inject, Injectable } from '@angular/core';
-import { Message } from './shared/models/message.model';
-import { MessageSender } from '@shared/models/enums/message-sender.enum';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Message } from './shared/models/message.model';
+import { MessageSender } from '@shared/models/enums/message-sender.enum';
+import { v4 as uuidv4 } from 'uuid'; // npm install uuid
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ConversationService {
-
-  private WholeConversation: Message[] = [];
+  private conversation: Message[] = [];
   private http = inject(HttpClient);
-  private list_of_messages = new BehaviorSubject<Message[]>([]);
-  list_of_messages$ = this.list_of_messages.asObservable();
+  private listOfMessages = new BehaviorSubject<Message[]>([]);
+  listOfMessages$ = this.listOfMessages.asObservable();
 
-  addMessageToConversation(message: string, sender: MessageSender): Message {
+  addMessage(content: string, sender: MessageSender): Message {
     const messageObj: Message = {
-      id: Math.random().toString(36).substring(2, 9),
-      content: message,
-      sender: sender,
+      id: uuidv4(),
+      content: content,
+      sender,
       timestamp: new Date()
     };
 
-    console.log("Current conversation:", this.WholeConversation);
-    this.list_of_messages.next([...this.WholeConversation, messageObj]);
-    this.WholeConversation.push(messageObj);
-
+    this.conversation.push(messageObj);
+    this.listOfMessages.next([...this.conversation]);
     return messageObj;
   }
 
-  addUserMessage(message: string): void {
-    console.log("Adding user message to conversation service: " + message);
-    this.sendUserMessage(this.addMessageToConversation(message, MessageSender.User));
+  addUserMessage(content: string): Message {
+    const message = this.addMessage(content, MessageSender.User);
+    this.sendUserMessage(message);
+    return message;
   }
 
-  addBotMessage(message: string): void {
-    console.log("Adding bot message to conversation service: " + message);
-    this.addMessageToConversation(message, MessageSender.Watcher);
+  addBotMessage(content: string): Message {
+    return this.addMessage(content, MessageSender.Watcher);
   }
 
-  sendUserMessage(message: Message): void {
-    console.log("Sending user message to API: " + message);
-
+  private sendUserMessage(message: Message): void {
+    // Aqui você chamaria a API real
     this.requestWatcherResponse(message);
   }
 
-  requestWatcherResponse(userMessage: Message): void {
-    // var url = "http://quarkus-orm:8080/ai/globals/ask/"
-    // var id = "1234" // TODO: generate unique ID for each conversation
-    // var final_url = url + id;
+  private requestWatcherResponse(userMessage: Message): void {
+    // Simulação de resposta da IA
+    const response = `
+### Guard.GlobalSnapshotD Analysis
 
-    // this.http.post(final_url, { question: userMessage.content }, { responseType: 'text' }).subscribe(response => {  }, error => {
-    //   console.error("Error fetching watcher response:", error);
-    // }
+1. **Snapshot:** 2026-02-18
+   - Allocated: 0.023 MB
+   - Used: 0.019 MB
 
-    const example_response = `
+2. **Snapshot:** 2026-02-19
+   - Allocated: 0.055 MB
+   - Used: 0.044 MB
+   - Growth: 0.025 MB (131.58%)
 
-      Here is the historical growth information for the global **guard.GlobalSnapshotD**:
-        
-      1. **Snapshot Date:** February 18, 2026
-         - **Allocated MB:** 0.023
-         - **Used MB:** 0.019
-         - **Location:** /usr/irissys/mgr/
-         - **Tables:** guard.GlobalSnapshot
-         - **Growth:** Not applicable (no growth recorded)
-        
-      2. **Snapshot Date:** February 19, 2026
-         - **Allocated MB:** 0.055
-         - **Used MB:** 0.044
-         - **Location:** /usr/irissys/mgr/
-         - **Tables:** guard.GlobalSnapshot
-         - **Growth:** 0.025 MB
-         - **Growth Percentage:** 131.58%
-        
-      ### Summary
-      - The global **guard.GlobalSnapshotD** showed an increase in size from **0.019 MB** to **0.044 MB** between the two snapshots, indicating a growth of **0.025 MB** (approximately **131.58%** growth) on February 19, 2026.
-        
-      If you need further analysis or details, feel free to ask!
-      `;
+**Summary:** Growth from 0.019 MB → 0.044 MB between snapshots.
 
+`;
 
-
-    this.addBotMessage(example_response);
+    this.addBotMessage(response);
   }
 }

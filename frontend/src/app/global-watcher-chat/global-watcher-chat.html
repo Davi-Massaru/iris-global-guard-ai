@@ -1,8 +1,5 @@
 <div class="container" #container>
-
-    @for (message of list_of_messages(); track $index) {
-        <!-- teste: {{message.sender}}: {{message.content}} -->
-        <global-watcher-chat-message [message]="message"></global-watcher-chat-message>
-    }
-
+  <ng-container *ngFor="let message of list_of_messages">
+    <global-watcher-chat-message [message]="message"></global-watcher-chat-message>
+  </ng-container>
 </div>

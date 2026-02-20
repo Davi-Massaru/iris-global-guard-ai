@@ -1,8 +1,13 @@
-<div class="container">
-    <div class="chat-container">
-        <global-watcher-chat [list_of_messages]="list_of_messages$ | async"></global-watcher-chat>
-    </div>
-    <div class="input-container">
-        <global-watcher-chat-input (messageSentEvent)="OnMessageSent($event)"></global-watcher-chat-input>
-    </div>
+<div class="chat-app-container">
+  <div class="chat-app-header">
+    <h2>IRIS AI Observability</h2>
+  </div>
+
+  <div class="chat-app-body">
+    <global-watcher-chat [list_of_messages]="(list_of_messages$ | async) || []"></global-watcher-chat>
+  </div>
+
+  <div class="chat-app-input">
+    <global-watcher-chat-input (messageSentEvent)="OnMessageSent($event)"></global-watcher-chat-input>
+  </div>
 </div>

@@ -1,53 +1,58 @@
 .message {
-    display: flex;
-    flex-direction: row;
-    border-radius: 5px;
-    margin: 3px 0px;
+  display: flex;
+  flex-direction: row;
+  margin: 6px 0;
+  width: 100%;
 }
 
-.left {
-    justify-content: flex-start;
+/* Mensagens do Watcher */
+.watcher {
+  justify-content: flex-start;
 }
 
-.right {
-    justify-content: flex-end;
+.watcher .message-container {
+  background-color: #fbf9f9; /* fundo branco suave */
+  color: #1c1c1c;             /* texto escuro */
+  border-radius: 12px 12px 12px 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.left .message-container {
-    background-color: #ececec;
-    border-radius: 5px;
-    color: #1C1C1C;
+/* Mensagens do User */
+.user {
+  justify-content: flex-end;
 }
 
-.right .message-container {
-    background-color: #579ffb;
-    border-radius: 5px;
-    color: #fff;
+.user .message-container {
+  background-color: #4c66af;  /* azul app */
+  color: #fff;                /* texto branco */
+  border-radius: 12px 12px 0 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.message .message-container {
-    justify-self: end;
-    border-radius: 5px;
-    min-width: 70px;
-    max-width: 550px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+/* Container comum das mensagens */
+.message-container {
+  padding: 5px 10px;
+  max-width: 70%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
+/* Info do remetente e horário */
 .speaker-info {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  font-size: medium;
+  color: #6b7280;
 }
 
-.message p {
-    margin: 10px;
-    white-space: pre-wrap;
-    word-break: break-word;
+.user .speaker-info {
+  color: #fff;
 }
-.timestamp p {
-    font-size: 0.8em;
-    line-height: 19px;
-}
-.content {
-    font-size: 0.9em;
+
+p {
+  margin: 0;
+  padding: 0;
 }

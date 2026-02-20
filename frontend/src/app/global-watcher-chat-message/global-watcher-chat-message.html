@@ -1,16 +1,13 @@
-<div class='message {{type_of_message}}'>
-    <div class="message-container">
-        <div class="speaker-info">
-            <div>
-                <p><b> @if (type_of_message == "left") { Watcher } @else { User } </b></p>
-            </div>
-            <div class="timestamp">
-                <p>{{message()?.timestamp | date: 'HH:mm'}}</p>
-            </div>
-        </div>
-        
-         <markdown class='content'>{{message()?.content}}</markdown>
-        
+<div class="message" [ngClass]="message.sender">
+  <div class="message-container">
+    <div class="speaker-info">
+      <div>
+        <p><b>{{ message.sender === 'watcher' ? 'Watcher' : 'User' }}</b></p>
+      </div>
+      <div class="timestamp">
+        <p>{{ message.timestamp | date:'HH:mm' }}</p>
+      </div>
     </div>
-
+    <markdown class="content">{{ message.content }}</markdown>
+  </div>
 </div>
