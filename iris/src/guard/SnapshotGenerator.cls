@@ -26,11 +26,10 @@ ClassMethod run() [ Language = python ]
                     str(global_info["GrowthPct"]) if global_info["GrowthPct"] is not None else ""
                 )
 
-                print(f"Inserted snapshot for global {global_info['GlobalName']} in directory {dir}")
-                print(f" AllocatedMB: {global_info['AllocatedMB']}, UsedMB: {global_info['UsedMB']}")
-                print("--------------------------------------------------")
             except Exception as ex:
                 print(ex)
+                
+        print(f"Completed snapshot for directory: {dir}")
 }
 
 ClassMethod listAllDirectories() As %List [ Language = python ]

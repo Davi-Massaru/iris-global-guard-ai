@@ -123,7 +123,7 @@ public class GlobalQueryTools {
             - location (String) [required]
             Description: Physical database location name where the globals are stored.
             How to use: Must match the IRIS database name exactly as returned by system queries.
-            Example: "IRISDATA", "USERDATA"
+            Example: " /usr/irissys/mgr/user/", "/usr/irissys/mgr/iristemp/"
 
             - globalNamePattern (String) [required]
             Description: Pattern to filter which globals are included in the size analysis.

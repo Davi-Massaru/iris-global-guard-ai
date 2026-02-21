@@ -7,7 +7,7 @@ ClassMethod run(windowDays As %Integer = 90) [ Language = python ]
     from datetime import date, timedelta
 
     today = date.today()
-    from_date = today - timedelta(days=windowDays)
+    fromdate = today - timedelta(days=windowDays)
 
     sql = """
         SELECT
@@ -28,9 +28,9 @@ ClassMethod run(windowDays As %Integer = 90) [ Language = python ]
             AND SnapshotDate >= ?
         GROUP BY GlobalName, Location
     """
-    print(f"Running WeeklyVectorGenerator for data from {from_date} to {today} (window: {windowDays} days)")
+    print(f"Running WeeklyVectorGenerator for data from {fromdate} to {today} (window: {windowDays} days)")
     select_stmt = iris.sql.prepare(sql)
-    rs = select_stmt.execute(from_date)
+    rs = select_stmt.execute(str(fromdate))
 
     print(rs)
 
@@ -78,7 +78,7 @@ ClassMethod run(windowDays As %Integer = 90) [ Language = python ]
             global_name,
             location,
             str(windowDays),
-            str(from_date),
+            str(fromdate),
             str(today),
             vector_str,
             float(row[2] or 0),
