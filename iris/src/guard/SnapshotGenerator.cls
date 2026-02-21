@@ -28,7 +28,7 @@ ClassMethod run() [ Language = python ]
 
             except Exception as ex:
                 print(ex)
-                
+
         print(f"Completed snapshot for directory: {dir}")
 }
 
