@@ -24,7 +24,7 @@ public class ChatMemoryProviderFactory implements Supplier<ChatMemoryProvider> {
 
             return memories.computeIfAbsent(
                 id,
-                k -> MessageWindowChatMemory.withMaxMessages(40)
+                k -> MessageWindowChatMemory.withMaxMessages(80)
             );
         };
     }
