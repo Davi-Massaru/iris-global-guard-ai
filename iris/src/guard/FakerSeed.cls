@@ -1,16 +1,9 @@
 Class quard.FakerSeed Extends %RegisteredObject
 {
 
-
-ClassMethod GetPythonDate() As %String [language = python]
-{
-    import datetime
-    return str(datetime.datetime.now().isoformat())
-}
-
 ClassMethod run()
 {
-    Set today = ##class(quard.FakerSeed).GetPythonDate()
+    Set today = $ZDateH($Horolog,3)_" 00:00:00"
     Write "Completed initial snapshot with date: ", today, !
     
     write "SQL Update to set all snapshot dates to today: UPDATE guard.GlobalSnapshot SET SnapshotDate = '"+today+"'", !
