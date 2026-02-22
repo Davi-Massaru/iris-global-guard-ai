@@ -29,7 +29,7 @@ ClassMethod run()
     Set rs = ##class(%SQL.Statement).%ExecDirect(,"UPDATE guard.GlobalSnapshot SET SnapshotDate = '2026-02-20 00:00:00' WHERE DATE(SnapshotDate) >=  DATE(NOW())")
     do ##class(guard.SnapshotGenerator).run()
     Set rs = ##class(%SQL.Statement).%ExecDirect(,"UPDATE guard.GlobalSnapshot SET SnapshotDate = '2026-02-21 00:00:00' WHERE DATE(SnapshotDate) >=  DATE(NOW())")
-
+    do ##class(guard.SnapshotGenerator).run()
 
     Set rs = ##class(%SQL.Statement).%ExecDirect(,"UPDATE guard.GlobalSnapshot SET GlobalName = 'data.TblEventLogD', tables = 'data.TblEventLog' WHERE tables = 'guard.GlobalSnapshot' AND GlobalName = 'guard.GlobalSnapshotD'")
     Set rs = ##class(%SQL.Statement).%ExecDirect(,"UPDATE guard.GlobalSnapshot SET GlobalName = 'data.TblEventLogI', tables = 'data.TblEventLog' WHERE tables = 'guard.GlobalSnapshot' AND GlobalName = 'guard.GlobalSnapshotI'")
