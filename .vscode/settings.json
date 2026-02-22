@@ -7,7 +7,7 @@
         "service": "iris",
         "internalPort": 52773
       },
-      "active": false,
+      "active": true,
       "links": {
         "IRIS_SQL": "http://localhost:${port}/csp/sys/exp/%25CSP.UI.Portal.SQL.Home.zen"
       }
