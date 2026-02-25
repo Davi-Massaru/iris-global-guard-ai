@@ -1,4 +1,4 @@
-Class quard.FakerSeed Extends %RegisteredObject
+Class guard.FakerSeed Extends %RegisteredObject
 {
 
 ClassMethod run()
